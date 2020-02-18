@@ -4,11 +4,11 @@
 
             <label class="uppercase text-blue-500 pt-2 font-bold text-xs absolute" :for="name">{{ label }}</label>
 
-            <input class="pt-8 w-full outline-none text-gray-900 text-sm border-b border-gray-400 pb-2 focus:border-blue-600 rounded-r-lg rounded-l-sm" 
+            <input class="pt-8 w-full outline-none text-gray-900 text-sm border-b border-gray-400 pb-2 focus:border-blue-600 rounded-r-lg rounded-l-sm"  value="test"
             :class="errorClassObject()"
             :placeholder="placeholder" :id="name" type="text" 
             autocomplete="name" 
-            @input="updateField()" v-model="value">
+             v-model="value">
 
             <p class="text-red-600 text-sm mt-1" v-text="errorMessage()"></p>
 
@@ -21,7 +21,7 @@ export default {
     name: "InputField",
 
     props: [
-        'name', 'label', 'placeholder', 'errors'
+        'name', 'label', 'placeholder', 'errors', 'data'
     ],
 
     methods: {
@@ -58,6 +58,16 @@ export default {
     computed: {
         hasError() {
             return this.errors && this.errors[this.name] && this.errors[this.name].length > 0;
+        }
+    },
+
+    watch: {
+        data: function (val) {
+            this.value = val;
+        },
+
+        value: function () {
+            this.updateField();
         }
     },
 }

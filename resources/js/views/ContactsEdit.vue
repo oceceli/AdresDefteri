@@ -1,15 +1,15 @@
 <template>
     <div>
         <form @submit.prevent="submitForm()">
-            
+            <button @click="$router.back()" class="text-blue-600 text-sm mb-3">< Geri Git</button>
             <div v-for="(input, index) in inputs" :key="index">
                 <input-field :name="input.name" :label="input.label" :placeholder="input.placeholder" :errors="errors" 
-                @update:field="form[input.name] = $event"></input-field>
+                @update:field="form[input.name] = $event" :data="response[input.name]"></input-field>
             </div>
 
             <div class="flex justify-end">
                 <button class="focus:outline-none bg-white px-4 py-2 text-red-700 border rounded border-gray-300 text-sm mr-5 hover:border-red-700">Vazgeç</button>
-                <button class="bg-blue-500 px-4 py-2 text-white text-sm rounded focus:outline-none hover:bg-blue-400">Kişiyi Kaydet</button>
+                <button class="bg-blue-500 px-4 py-2 text-white text-sm rounded focus:outline-none hover:bg-blue-400">Onayla</button>
             </div>
         </form>
     </div>
@@ -33,23 +33,26 @@ export default {
 
             form: {},
             errors: null,
+            response: {},
         }
     },
 
-
-    created() {
-        this.setNameAttributeAsFormKey();
+    mounted() {
+        axios.get('/api/contacts/' + this.$route.params.id)
+            .then(response => {
+                this.response = response.data.data;
+            })
+            .catch(error => {
+                console.log("Bir hata oluştu!");
+            });
     },
 
-    methods: {
-        setNameAttributeAsFormKey() {
-            for(let i = 0; i < this.inputs.length; i++){
-                this.form[this.inputs[i].name] = '';
-            }
-        },
 
+    
+
+    methods: {
         submitForm() {
-            axios.post('/api/contacts', this.form)
+            axios.patch('/api/contacts/' + this.$route.params.id, this.form)
                 .then(response => {
                     this.$router.push(response.data.links.self);
                 })

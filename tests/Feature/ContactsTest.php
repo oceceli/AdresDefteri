@@ -179,7 +179,6 @@ class ContactsTest extends TestCase
      */
     public function a_contact_can_be_deleted()
     {
-        $this->withoutExceptionHandling();
         $contact = factory(Contact::class)->create(['user_id' => $this->user->id]);
         $response = $this->delete('/api/contacts/'.$contact->id, ['api_token' => $this->user->api_token]);
 
