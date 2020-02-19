@@ -1,6 +1,6 @@
 <template>
     <div>
-        <contacts-list :endpoint="endpoint"></contacts-list>        
+        <contacts-list :endpoint="endpoint"></contacts-list>
     </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
 
     data() {
         return {
-            endpoint: '/api/contacts',
+            endpoint: '/api/birthdays',
         }
     },
 }
