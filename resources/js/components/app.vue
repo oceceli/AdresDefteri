@@ -44,9 +44,12 @@
                 <!-- Top -->
                 <div class="h-16 px-6 flex items-center justify-between border-b border-gray-400">
                     <div class="">
-                        Latest Contacts
+                        {{ title }}
                     </div>
-                    <user-circle :name="'Kullanıcı Adı'"></user-circle>
+                    <div class="flex items-center">
+                        <search-bar class="mr-3"/>
+                        <user-circle :name="'Kullanıcı Adı'"></user-circle>
+                    </div>
                 </div>
 
                 <!-- Content -->
@@ -62,16 +65,18 @@
 
 <script>
 import UserCircle from '../components/UserCircle';
+import SearchBar from '../components/SearchBar';
 export default {
     name: "App",
     components: {
-        UserCircle,
+        UserCircle, SearchBar,
     },
     props: [
         'user',
     ],
 
     created() {
+        this.title = this.$route.meta.title,
         window.axios.interceptors.request.use(
             (config) => {
                 if(config.method === 'get') {
@@ -85,6 +90,23 @@ export default {
                 return config;
             }
         );
+    },
+
+    data() {
+        return {
+            title: '',
+        }
+    },
+
+    watch: {
+
+        $route(to, form) {
+            this.title = to.meta.title;
+        },
+
+        title() {
+            document.title = this.title + ' | Güzel Bi\'şey'
+        }
     },
 }
 </script>

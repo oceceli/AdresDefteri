@@ -6,7 +6,7 @@
                 <p>Burada kimsecikler yok... Hadi birilerini <router-link to="/contacts/create" class="font-bold text-blue-600">ekle</router-link> :)</p>
             </div>
             <router-link v-else :to="'/contacts/'+ item.data.contact_id" v-for="(item, index) in response" :key="index" class="flex items-center border-b border-gray-400 pb-3 pt-3 hover:bg-gray-100"> 
-                <button class="hover:opacity-75 z-10" title="Düzenle">
+                <button class="hover:opacity-75" title="Düzenle">
                     <user-circle :name="item.data.name"></user-circle>
                 </button>
                 <div class="ml-4 flex flex-col">
